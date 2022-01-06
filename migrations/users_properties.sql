@@ -24,5 +24,5 @@ CREATE TABLE properties (
   province VARCHAR(255) NOT NULL,
   post_code VARCHAR(255) NOT NULL,
   
-  active BOOLEAN NOT NULL DEFAULT TRUE
+  is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
