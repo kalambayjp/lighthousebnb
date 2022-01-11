@@ -18,16 +18,6 @@ const users = require('./json/users.json');
  */
 
 const getUserWithEmail = function(email) {
-  // let user;
-  // for (const userId in users) {
-  //   user = users[userId];
-  //   if (user.email.toLowerCase() === email.toLowerCase()) {
-  //     break;
-  //   } else {
-  //     user = null;
-  //   }
-  // }
-  // return Promise.resolve(user);
 
   const values = [email];
 
@@ -48,7 +38,6 @@ exports.getUserWithEmail = getUserWithEmail;
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithId = function(id) {
-  // return Promise.resolve(users[id]);
 
   const values = [id];
 
@@ -60,10 +49,7 @@ const getUserWithId = function(id) {
   .catch(err => console.log('error:', err));
 }
 
-
-
 exports.getUserWithId = getUserWithId;
-
 
 /**
  * Add a new user to the database.
@@ -71,11 +57,8 @@ exports.getUserWithId = getUserWithId;
  * @return {Promise<{}>} A promise to the user.
  */
 const addUser =  function(user) {
-  // const userId = Object.keys(users).length + 1;
-  // user.id = userId;
-  // users[userId] = user;
-  // return Promise.resolve(user);
-console.log(user)
+
+  console.log(user)
   const values = [user.name, user.email, user.password];
 
   return pool.query(`
@@ -95,7 +78,18 @@ exports.addUser = addUser;
  * @return {Promise<[{}]>} A promise to the reservations.
  */
 const getAllReservations = function(guest_id, limit = 10) {
-  return getAllProperties(null, 2);
+  // return getAllProperties(null, 2);
+  const values = [guest_id, limit]
+
+  return pool.query(`
+  SELECT * FROM reservations
+  WHERE guest_id = $1
+  LIMIT $2;`, values)
+  .then(res => res.rows.length > 0 ? res.rows : null)
+  .catch(err => console.log(err));
+
+
+
 }
 exports.getAllReservations = getAllReservations;
 
